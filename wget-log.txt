@@ -1,0 +1,6 @@
+https://docs.sui.io/references/sui-api/sui-graphql/reference:
+Remote file does not exist -- broken link!!!
+Found 1 broken link.
+
+https://docs.sui.io/references/sui-api/sui-graphql/reference
+

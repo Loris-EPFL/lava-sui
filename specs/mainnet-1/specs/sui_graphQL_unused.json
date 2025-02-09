@@ -1,0 +1,137 @@
+{
+    "proposal": {
+        "title": "Enhanced Sui REST Spec with Balance Endpoints",
+        "description": "Expanding Sui REST wrapper to include balance tracking endpoints",
+        "specs": [
+            {
+                "index": "SUIREST",
+                "name": "Sui REST Gateway",
+                "enabled": true,
+                "api_collections": [
+                    {
+                        "enabled": true,
+                        "collection_data": {
+                            "api_interface": "rest",
+                            "internal_path": "",
+                            "type": "GET",
+                            "add_on": "balances"
+                        },
+                        "apis": [
+                            {
+                                "name": "/balances/{owner}",
+                                "block_parsing": {
+                                    "parser_arg": ["nodes"],
+                                    "parser_func": "PARSE_BALANCE_CONNECTION"
+                                },
+                                "compute_units": 180,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "/balances/{owner}/{coinType}",
+                                "block_parsing": {
+                                    "parser_arg": ["balance"],
+                                    "parser_func": "PARSE_SINGLE_BALANCE"
+                                },
+                                "compute_units": 150,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            }
+                        ],
+                        "verifications": [
+                            {
+                                "name": "balance_verification",
+                                "parse_directive": {
+                                    "function_template": "{\"query\":\"query { address(address: \\\"%owner%\\\") { balance(type: \\\"%coinType%\\\") { coinType totalBalance } } }\"}",
+                                    "function_tag": "VERIFICATION",
+                                    "result_parsing": {
+                                        "parser_arg": ["0", "totalBalance"],
+                                        "parser_func": "PARSE_CANONICAL"
+                                    },
+                                    "api_name": "/balances/{owner}/{coinType}"
+                                },
+                                "values": [
+                                    {
+                                        "expected_value": "totalBalance"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "enabled": true,
+                        "collection_data": {
+                            "api_interface": "rest",
+                            "internal_path": "",
+                            "type": "GET",
+                            "add_on": "balance-changes"
+                        },
+                        "apis": [
+                            {
+                                "name": "/balance-changes/{transactionDigest}",
+                                "block_parsing": {
+                                    "parser_arg": ["nodes"],
+                                    "parser_func": "PARSE_BALANCE_CHANGES"
+                                },
+                                "compute_units": 220,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            }
+                        ],
+                        "verifications": [
+                            {
+                                "name": "balance_change_verification",
+                                "parse_directive": {
+                                    "function_template": "{\"query\":\"query { transactionBlock(digest: \\\"%transactionDigest%\\\") { effects { balanceChanges { nodes { amount } } } } }\"}",
+                                    "function_tag": "VERIFICATION",
+                                    "result_parsing": {
+                                        "parser_arg": ["0", "amount"],
+                                        "parser_func": "PARSE_SIGNED_NUMBER"
+                                    },
+                                    "api_name": "/balance-changes/{transactionDigest}"
+                                },
+                                "values": [
+                                    {
+                                        "expected_value": "amount"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "additional_params": {
+                    "balance_parser_config": {
+                        "coinType_mapping": {
+                            "0x2::sui::SUI": "SUI",
+                            "0x2::usdc::USDC": "USD Coin"
+                        }
+                    },
+                    "pagination_support": {
+                        "default_page_size": 10,
+                        "max_page_size": 100,
+                        "cursor_format": "base64"
+                    }
+                }
+            }
+        ]
+    },
+    "deposit": "15000000ulava"
+}
