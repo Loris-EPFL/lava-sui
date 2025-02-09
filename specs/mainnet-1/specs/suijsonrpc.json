@@ -1098,30 +1098,6 @@
                                         "expected_value": "6bd1dd20"
                                     }
                                 ]
-                            },
-                            {
-                                "name": "pruning",
-                                "parse_directive": {
-                                    "function_template": "{\"jsonrpc\":\"2.0\",\"method\":\"sui_getCheckpoint\",\"params\":[\"0\"],\"id\":1}",
-                                    "function_tag": "VERIFICATION",
-                                    "result_parsing": {
-                                        "parser_arg": [
-                                            "0",
-                                            "sequence_number"
-                                        ],
-                                        "parser_func": "PARSE_CANONICAL"
-                                    },
-                                    "api_name": "sui_getCheckpoint"
-                                },
-                                "values": [
-                                    {
-                                        "latest_distance": 1000
-                                    },
-                                    {
-                                        "extension": "archive",
-                                        "expected_value": "0"
-                                    }
-                                ]
                             }
                         ],
                         "extensions": []
