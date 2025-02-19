@@ -29,6 +29,63 @@
                         },
                         "apis": [
                             {
+                                "name": "sui.node.v2.BalanceChange",
+                                "enabled": true,
+                                "compute_units": 100,
+                                "extra_compute_units": 0,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0,
+                                    "hanging_api": false
+                                },
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                }
+                            },
+                            {
+                                "name": "sui.node.v2.BalanceChanges",
+                                "enabled": true,
+                                "compute_units": 150,
+                                "extra_compute_units": 50,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0,
+                                    "hanging_api": false
+                                },
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                }
+                            },
+                            {
+                                "name": "sui.node.v2.EffectsFinality",
+                                "enabled": true,
+                                "compute_units": 50,
+                                "extra_compute_units": 0,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0,
+                                    "hanging_api": false
+                                },
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                }
+                            },
+                            {
                                 "name": "sui.node.v2.ExecuteTransaction",
                                 "enabled": true,
                                 "compute_units": 100,
@@ -48,6 +105,24 @@
                                 }
                             },
                             {
+                                "name": "sui.node.v2.GetFullCheckpoint",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "2"
+                                    ],
+                                    "parser_func": "PARSE_BY_ARG"
+                                },
+                                "compute_units": 100,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
                                 "name": "sui.node.v2.GetCheckpoint",
                                 "enabled": true,
                                 "compute_units": 100,
@@ -65,119 +140,13 @@
                                     ],
                                     "parser_func": "PARSE_BY_ARG"
                                 }
-                            },
-                            {
-                                "name": "sui.node.v2.GetCommittee",
-                                "enabled": true,
-                                "compute_units": 100,
-                                "extra_compute_units": 0,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0,
-                                    "hanging_api": false
-                                },
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "latest"
-                                    ],
-                                    "parser_func": "DEFAULT"
-                                }
-                            },
-                            {
-                                "name": "sui.node.v2.GetFullCheckpoint",
-                                "enabled": true,
-                                "compute_units": 200,
-                                "extra_compute_units": 50,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0,
-                                    "hanging_api": false
-                                },
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "2"
-                                    ],
-                                    "parser_func": "PARSE_BY_ARG"
-                                }
-                            },
-                            {
-                                "name": "sui.node.v2.GetNodeInfo",
-                                "enabled": true,
-                                "compute_units": 50,
-                                "extra_compute_units": 0,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0,
-                                    "hanging_api": false
-                                },
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "latest"
-                                    ],
-                                    "parser_func": "DEFAULT"
-                                }
-                            },
-                            {
-                                "name": "sui.node.v2.GetObject",
-                                "enabled": true,
-                                "compute_units": 100,
-                                "extra_compute_units": 0,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0,
-                                    "hanging_api": false
-                                },
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "latest"
-                                    ],
-                                    "parser_func": "DEFAULT"
-                                }
-                            },
-                            {
-                                "name": "sui.node.v2.GetTransaction",
-                                "enabled": true,
-                                "compute_units": 100,
-                                "extra_compute_units": 0,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0,
-                                    "hanging_api": false
-                                },
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "latest"
-                                    ],
-                                    "parser_func": "DEFAULT"
-                                }
                             }
                         ],
                         "headers": [],
                         "inheritance_apis": [],
                         "parse_directives": [
                             {
-                                "function_tag": "GET_CHECKPOINT_RESPONSE",
-                                "function_template": "sui.node.v2.GetCheckpointResponse",
-                                "result_parsing": {
-                                    "parser_arg": [
-                                        "3"
-                                    ],
-                                    "parser_func": "PARSE_BY_ARG"
-                                },
-                                "api_name": "sui.node.v2.GetCheckpointResponse"
-                            },
-                            {
-                                "function_tag": "GET_CHECKPOINT_REQUEST",
+                                "function_tag": "GET_BLOCKNUM",
                                 "function_template": "sui.node.v2.GetCheckpointRequest",
                                 "result_parsing": {
                                     "parser_arg": [
@@ -185,7 +154,18 @@
                                     ],
                                     "parser_func": "PARSE_BY_ARG"
                                 },
-                                "api_name": "sui.node.v2.GetCheckpointRequest"
+                                "api_name": "sui.node.v2.GetCheckpointResponse"
+                            },
+                            {
+                                "function_tag": "GET_BLOCK_BY_NUM",
+                                "function_template": "sui.node.v2.GetCheckpointRequest",
+                                "result_parsing": {
+                                    "parser_arg": [
+                                        "2"
+                                    ],
+                                    "parser_func": "PARSE_BY_ARG"
+                                },
+                                "api_name": "sui.node.v2.GetCheckpointResponse"
                             },
                             {
                                 "function_tag": "GET_FULL_CHECKPOINT_OBJECT",
@@ -197,17 +177,6 @@
                                     "parser_func": "PARSE_BY_ARG"
                                 },
                                 "api_name": "sui.node.v2.GetFullCheckpointResponse"
-                            },
-                            {
-                                "function_tag": "GET_TRANSACTION_CHECKPOINT",
-                                "function_template": "sui.node.v2.GetTransactionRequest",
-                                "result_parsing": {
-                                    "parser_arg": [
-                                        "0"
-                                    ],
-                                    "parser_func": "PARSE_BY_ARG"
-                                },
-                                "api_name": "sui.node.v2.GetTransactionResponse"
                             }
                         ]
                     }

@@ -1,23 +1,22 @@
 {
     "proposal": {
-        "title": "Add Specs: Sui Full Node JSON-RPC",
-        "description": "Adding new specification support for relaying Sui Full Node JSON-RPC data on Lava",
+        "title": "Add Specs: Sui",
+        "description": "Adding new specification support for relaying Sui data on Lava",
         "specs": [
             {
-                "index": "SUI_JSONRPC",
-                "name": "Sui Full Node JSON-RPC",
+                "index": "SUIT",
+                "name": "sui devnet",
                 "enabled": true,
-                "imports": [],
                 "reliability_threshold": 268435455,
                 "data_reliability_enabled": true,
-                "block_distance_for_finalized_data": 1,
+                "block_distance_for_finalized_data": 0,
                 "blocks_in_finalization_proof": 1,
                 "average_block_time": 1000,
                 "allowed_block_lag_for_qos_sync": 10,
                 "shares": 1,
                 "min_stake_provider": {
                     "denom": "ulava",
-                    "amount": "5000000000"
+                    "amount": "47500000000"
                 },
                 "api_collections": [
                     {
@@ -29,466 +28,199 @@
                             "add_on": ""
                         },
                         "apis": [
-                            // Coin Query API
-                            {
-                                "name": "suix_getAllBalances",
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "owner"
-                                    ],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 100,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            {
-                                "name": "suix_getAllCoins",
-                                "block_parsing": {
-                                    "parser_arg": [
-                                        "owner",
-                                        "cursor?",
-                                        "limit?"
-                                    ],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 100,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            { //Correct tempalte form for Functions without block
-                                "name": "suix_getBalance",
-                                "compute_units": 20,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0,
-                                "function_template": "{\"jsonrpc\":\"2.0\",\"method\":\"suix_getBalance\",\"params\":[\"%s\",\"%s\"],\"id\":1}",
-                                "parsing": {
-                                    "parser_arg": [
-                                        "result",
-                                        "totalBalance"
-                                    ],
-                                    "parser_func": "PARSE_CANONICAL"
-                                }
-                            },
-                            {
-                                "name": "suix_getBalance",
-                                "compute_units": 20,
-                                "enabled": true,
-                                "category": {
-                                  "deterministic": true,
-                                  "local": false,
-                                  "subscription": false,
-                                  "stateful": 0
-                                },
-                                "extra_compute_units": 0,
-                                "function_template": "{\"jsonrpc\":\"2.0\",\"method\":\"suix_getBalance\",\"params\":[\"%s\",\"%s\"],\"id\":1}",
-                                "block_parsing": {
-                                  "parser_arg": ["latest"],
-                                  "parser_func": "DEFAULT"
-                                },
-                                "result_parsing": {
-                                  "parser_arg": [
-                                    "result",
-                                    "totalBalance"
-                                  ],
-                                  "parser_func": "PARSE_CANONICAL"
-                                }
-                              },
-                            {
-                                "name": "suix_getCoinMetadata",
-                                "block_parsing": {
-                                    "parser_arg": ["coin_type"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            {
-                                "name": "suix_getCoins",
-                                "block_parsing": {
-                                    "parser_arg": ["owner", "coin_type", "cursor?", "limit?"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 100,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            {
-                                "name": "suix_getTotalSupply",
-                                "block_parsing": {
-                                    "parser_arg": ["coin_type"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            //Extended API
-                            {
-                                "name": "suix_getDynamicFieldObject",
-                                "block_parsing": {
-                                    "parser_arg": ["parent_object_id", "name"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 50,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            {
-                                "name": "suix_getDynamicFields",
-                                "block_parsing": {
-                                    "parser_arg": ["parent_object_id", "cursor?", "limit?"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 150,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 50
-                            },
-                            {
-                                "name": "suix_getOwnedObjects",
-                                "block_parsing": {
-                                    "parser_arg": ["address", "query?", "cursor?", "limit?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"
-                                },
-                                "compute_units": 200,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": false,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 1
-                                },
-                                "extra_compute_units": 100
-                            },
-                            {
-                                "name": "suix_queryEvents",
-                                "block_parsing": {
-                                    "parser_arg": ["query", "cursor?", "limit?", "descending_order?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"
-                                },
-                                "compute_units": 250,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": true,
-                                    "stateful": 1
-                                },
-                                "extra_compute_units": 150
-                            },
-                            {
-                                "name": "suix_queryTransactionBlocks",
-                                "block_parsing": {
-                                    "parser_arg": ["query", "cursor?", "limit?", "descending_order?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"
-                                },
-                                "compute_units": 300,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 1
-                                },
-                                "extra_compute_units": 200
-                            },
-                            {
-                                "name": "suix_resolveNameServiceAddress",
-                                "block_parsing": {
-                                    "parser_arg": ["name"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 50,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            {
-                                "name": "suix_resolveNameServiceNames",
-                                "block_parsing": {
-                                    "parser_arg": ["address", "cursor?", "limit?"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            //Subscribe events shuld be deprecated
-                            {
-                                "name": "suix_subscribeEvent",
-                                "block_parsing": {
-                                    "parser_arg": ["filter"],
-                                    "parser_func": "WEBSOCKET"
-                                },
-                                "compute_units": 100,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": false,
-                                    "local": false,
-                                    "subscription": true,
-                                    "stateful": 2
-                                },
-                                "extra_compute_units": 50,
-                                "websocket": {
-                                    "keep_alive": true,
-                                    "timeout_ms": 30000
-                                }
-                            },
-                            {
-                                "name": "suix_subscribeTransaction",
-                                "block_parsing": {
-                                    "parser_arg": ["filter"],
-                                    "parser_func": "WEBSOCKET"
-                                },
-                                "compute_units": 150,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": false,
-                                    "local": false,
-                                    "subscription": true,
-                                    "stateful": 2
-                                },
-                                "extra_compute_units": 75,
-                                "websocket": {
-                                    "keep_alive": true,
-                                    "timeout_ms": 30000,
-                                    "buffer_size": "1MB"
-                                }
-                            },
-                            //Governance Read API
-                            {
-                                "name": "suix_getCommitteeInfo",
-                                "block_parsing": {
-                                    "parser_arg": ["epoch"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            {
-                                "name": "suix_getLatestSuiSystemState",
-                                "block_parsing": {
-                                    "parser_arg": [""],
-                                    "parser_func": "EMPTY"
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            {
-                                "name": "suix_getReferenceGasPrice",
-                                "block_parsing": {
-                                    "parser_arg": [""],
-                                    "parser_func": "EMPTY"
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            {
-                                "name": "suix_getStakes",
-                                "block_parsing": {
-                                    "parser_arg": ["owner"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            {
-                                "name": "suix_getStakesByIds",
-                                "block_parsing": {
-                                    "parser_arg": ["staked_sui_ids"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            {
-                                "name": "suix_getValidatorsApy",
-                                "block_parsing": {
-                                    "parser_arg": [""],
-                                    "parser_func": "EMPTY"  
-                                },
-                                "compute_units": 75,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25
-                            },
-                            //Move utils
-                            {
-                                "name": "sui_getMoveFunctionArgTypes",
-                                "block_parsing": {
-                                    "parser_arg": ["package", "module", "function"], 
-                                    "parser_func": "DEFAULT"  
-                                },
-                                "compute_units": 50,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 10
-                            },
-                            {
-                                "name": "sui_getNormalizedMoveFunction",
-                                "block_parsing": {
-                                    "parser_arg": ["package", "module_name", "function_name"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 50,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 10
-                            },
-                            {
-                                "name": "sui_getNormalizedMoveModule",
-                                "block_parsing": {
-                                    "parser_arg": ["package", "module_name"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 75,  
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 25 
-                            },
-                            {
-                                "name": "sui_getNormalizedMoveStruct",
-                                "block_parsing": {
-                                    "parser_arg": ["package", "module_name", "struct_name"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 40,  // Lower than function/module as struct data is typically simpler
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 10
-                            },
-                            //Read API
                             {
                                 "name": "sui_getChainIdentifier",
                                 "block_parsing": {
-                                    "parser_arg": [""],
-                                    "parser_func": "EMPTY"
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 100,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_batchTransaction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 100,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_devInspectTransaction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
                                 },
                                 "compute_units": 10,
                                 "enabled": true,
                                 "category": {
                                     "deterministic": true,
-                                    "local": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_dryRunTransaction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_executeTransaction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_executeTransactionSerializedSig",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getAllBalances",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getAllCoins",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getBalance",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getCheckpointContents",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "0"
+                                    ],
+                                    "parser_func": "PARSE_BY_ARG"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getCheckpointContentsByDigest",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
                                     "subscription": false,
                                     "stateful": 0
                                 },
@@ -497,62 +229,268 @@
                             {
                                 "name": "sui_getCheckpoint",
                                 "block_parsing": {
-                                    "parser_arg": ["id"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 100, 
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 50  
-                            },
-                            {
-                                "name": "sui_getCheckpoints",
-                                "block_parsing": {
-                                    "parser_arg": ["cursor?", "limit?", "descending_order"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 150,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 100
-                            },
-                            {
-                                "name": "sui_getEvents",
-                                "block_parsing": {
-                                    "parser_arg": ["transaction_digest"],
-                                    "parser_func": "DEFAULT"
-                                },
-                                "compute_units": 100,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 50
-                            },
-                            {
-                                "name": "sui_getLatestCheckpointSequenceNumber",
-                                "block_parsing": {
-                                    "parser_arg": [""],
-                                    "parser_func": "EMPTY"
+                                    "parser_arg": [
+                                        "0"
+                                    ],
+                                    "parser_func": "PARSE_BY_ARG"
                                 },
                                 "compute_units": 10,
                                 "enabled": true,
                                 "category": {
                                     "deterministic": true,
-                                    "local": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getCheckpointSummaryByDigest",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getCoinMetadata",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getCoins",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getCommitteeInfo",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getDelegatedStakes",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getDynamicFieldObject",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getDynamicFields",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getEvents",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getLatestCheckpointSequenceNumber",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getMoveFunctionArgTypes",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getNormalizedMoveFunction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getNormalizedMoveModule",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getNormalizedMoveModulesByPackage",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getNormalizedMoveStruct",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
                                     "subscription": false,
                                     "stateful": 0
                                 },
@@ -561,333 +499,531 @@
                             {
                                 "name": "sui_getObject",
                                 "block_parsing": {
-                                    "parser_arg": ["object_id", "options?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"
-                                },
-                                "compute_units": 100,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 50
-                            },
-                            {
-                                "name": "sui_getProtocolConfig",
-                                "block_parsing": {
-                                    "parser_arg": ["version?"],  
-                                    "parser_func": "DEFAULT"  
-                                },
-                                "compute_units": 50,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": true,
-                                    "subscription": false,
-                                    "stateful": 0
-                                },
-                                "extra_compute_units": 0
-                            },
-                            {
-                                "name": "sui_getTotalTransactionBlocks",
-                                "block_parsing": {
-                                    "parser_arg": [""], 
-                                    "parser_func": "EMPTY"  
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
                                 },
                                 "compute_units": 10,
                                 "enabled": true,
                                 "category": {
                                     "deterministic": true,
-                                    "local": true,
+                                    "local": false,
                                     "subscription": false,
                                     "stateful": 0
                                 },
                                 "extra_compute_units": 0
                             },
                             {
-                                "name": "sui_getTransactionBlock",
+                                "name": "sui_getObjectsOwnedByAddress",
                                 "block_parsing": {
-                                    "parser_arg": ["digest", "options?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"  
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
                                 },
-                                "compute_units": 100,
+                                "compute_units": 10,
                                 "enabled": true,
                                 "category": {
                                     "deterministic": true,
-                                    "local": true,
+                                    "local": false,
                                     "subscription": false,
                                     "stateful": 0
                                 },
-                                "extra_compute_units": 50
+                                "extra_compute_units": 0
                             },
                             {
-                                "name": "sui_multiGetObjects",
+                                "name": "sui_getRawObject",
                                 "block_parsing": {
-                                    "parser_arg": ["object_ids", "options?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"  
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
                                 },
-                                "compute_units": 150,  
+                                "compute_units": 10,
                                 "enabled": true,
                                 "category": {
                                     "deterministic": true,
-                                    "local": true,
+                                    "local": false,
                                     "subscription": false,
                                     "stateful": 0
                                 },
-                                "extra_compute_units": 50 
+                                "extra_compute_units": 0
                             },
                             {
-                                "name": "sui_multiGetTransactionBlocks",
+                                "name": "sui_getReferenceGasPrice",
                                 "block_parsing": {
-                                    "parser_arg": ["digests", "options?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"  
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
                                 },
-                                "compute_units": 200,  
+                                "compute_units": 10,
                                 "enabled": true,
                                 "category": {
                                     "deterministic": true,
-                                    "local": true,
+                                    "local": false,
                                     "subscription": false,
                                     "stateful": 0
                                 },
-                                "extra_compute_units": 75,  
-                                "limits": {
-                                    "max_size": "QUERY_MAX_RESULT_LIMIT"  
-                                }
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getSuiSystemState",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getTotalSupply",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getTotalTransactionNumber",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getTransaction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getTransactionAuthSigners",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getTransactions",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getTransactionsInRange",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "1"
+                                    ],
+                                    "parser_func": "PARSE_BY_ARG"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_getValidators",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_mergeCoins",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_moveCall",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_pay",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_payAllSui",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_paySui",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_publish",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_requestAddDelegation",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_requestSwitchDelegation",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_requestWithdrawDelegation",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_splitCoin",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_splitCoinEqual",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_submitTransaction",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_subscribeEvent",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": true,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_tblsSignRandomnessObject",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_transferObject",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_transferSui",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
+                            },
+                            {
+                                "name": "sui_object_id",
+                                "block_parsing": {
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
+                                    "parser_func": "DEFAULT"
+                                },
+                                "compute_units": 10,
+                                "enabled": true,
+                                "category": {
+                                    "deterministic": true,
+                                    "local": false,
+                                    "subscription": false,
+                                    "stateful": 0
+                                },
+                                "extra_compute_units": 0
                             },
                             {
                                 "name": "sui_tryGetPastObject",
                                 "block_parsing": {
-                                    "parser_arg": ["object_id", "version", "options?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": false,  // Not deterministic due to pruning policies
-                                    "local": false,         // Depends on node's historical data
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "sui_tryMultiGetPastObjects",
-                                "block_parsing": {
-                                    "parser_arg": ["past_objects", "options?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"  // For handling array of objects and nested options?
-                                },
-                                "compute_units": 20,  // Higher than single object query due to multiple objects
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": false,  // Not deterministic due to pruning policies
-                                    "local": false,         // Depends on node's historical data
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            //Transaction Builder Api
-                            {
-                                "name": "unsafe_batchTransaction",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "single_transaction_params", "gas?", "gas_budget", "txn_builder_mode?"],
-                                    "parser_func": "PARSE_DICTIONARY" 
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_mergeCoins",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "primary_coin", "coin_to_merge", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"  
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_moveCall",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "package_object_id", "module", "function", "type_arguments", "arguments", "gas?", "gas_budget", "execution_mode?"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_pay",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "input_coins", "recipients", "amounts", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_payAllSui",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "input_coins", "recipient", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_paySui",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "input_coins", "recipients", "amounts", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_publish",
-                                "block_parsing": {
-                                    "parser_arg": ["sender", "compiled_modules", "dependencies", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_requestAddStake",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "coins", "amount?", "validator", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_requestWithdrawStake",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "staked_sui", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_splitCoin",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "coin_object_id", "split_amounts", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_splitCoinEqual",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "coin_object_id", "split_count", "gas?", "gas_budget"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_transferObject",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "object_id", "gas?", "gas_budget", "recipient"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "unsafe_transferSui",
-                                "block_parsing": {
-                                    "parser_arg": ["signer", "sui_object_id", "gas_budget", "recipient", "amount?"],
-                                    "parser_func": "PARSE_DICTIONARY"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            //Write Api
-                            {
-                                "name": "sui_devInspectTransactionBlock",
-                                "block_parsing": {
-                                    "parser_arg": ["sender_address", "tx_bytes", "gas_price?", "epoch?", "additional_args?"],
+                                    "parser_arg": [
+                                        "latest"
+                                    ],
                                     "parser_func": "DEFAULT"
                                 },
                                 "compute_units": 10,
@@ -897,54 +1033,13 @@
                                     "local": false,
                                     "subscription": false,
                                     "stateful": 0
-                                }
-                            }, 
-                            {
-                                "name": "sui_dryRunTransactionBlock",
-                                "block_parsing": {
-                                    "parser_arg": ["tx_bytes"],
-                                    "parser_func": "DEFAULT"
                                 },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
-                            },
-                            {
-                                "name": "sui_executeTransactionBlock",
-                                "block_parsing": {
-                                    "parser_arg": ["tx_bytes", "signatures", "options?", "request_type?"],
-                                    "parser_func": "PARSE_DICTIONARY_OR_ORDERED"
-                                },
-                                "compute_units": 10,
-                                "enabled": true,
-                                "category": {
-                                    "deterministic": true,
-                                    "local": false,
-                                    "subscription": false,
-                                    "stateful": 0
-                                }
+                                "extra_compute_units": 0
                             }
-
                         ],
                         "headers": [],
                         "inheritance_apis": [],
                         "parse_directives": [
-                            {
-                                "function_template": "{\"jsonrpc\":\"2.0\",\"method\":\"sui_getLatestCheckpointSequenceNumber\",\"params\":[],\"id\":1}",
-                                "function_tag": "GET_BLOCKNUM",
-                                "result_parsing": {
-                                    "parser_arg": [
-                                        "0"
-                                    ],
-                                    "parser_func": "PARSE_BY_ARG"
-                                },
-                                "api_name": "sui_getLatestCheckpointSequenceNumber"
-                            },
                             {
                                 "function_tag": "GET_BLOCK_BY_NUM",
                                 "function_template": "{\"jsonrpc\":\"2.0\",\"method\":\"sui_getCheckpoint\",\"params\":[\"%d\"],\"id\":1}",
@@ -957,6 +1052,17 @@
                                     "encoding": "base64"
                                 },
                                 "api_name": "sui_getCheckpoint"
+                            },
+                            {
+                                "function_template": "{\"jsonrpc\":\"2.0\",\"method\":\"sui_getLatestCheckpointSequenceNumber\",\"params\":[],\"id\":1}",
+                                "function_tag": "GET_BLOCKNUM",
+                                "result_parsing": {
+                                    "parser_arg": [
+                                        "0"
+                                    ],
+                                    "parser_func": "PARSE_BY_ARG"
+                                },
+                                "api_name": "sui_getLatestCheckpointSequenceNumber"
                             }
                         ],
                         "verifications": [
@@ -980,8 +1086,7 @@
                                     }
                                 ]
                             }
-                        ],
-                        "extensions": []
+                        ]
                     }
                 ]
             }
