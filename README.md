@@ -3,6 +3,13 @@ parent:
   order: false
 -->
 
+Test:
+sudo mkdir -p /run/screen
+sudo chmod 777 /run/screen
+
+
+./scripts/test_spec_full.sh specs/mainnet-1/specs/suijsonrpc_latestParsing.json jsonrpc  https://sui-mainnet-endpoint.blockvision.org
+
 <div align="center">
   <h1> <img src="https://user-images.githubusercontent.com/2770565/223762290-44afc792-8ad4-4dbb-b2c2-532780d6c5de.png" alt="Logo" width="30" height="25"> Lava Network  </h1>
 </div>
